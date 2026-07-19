@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Cá Nhân | Nguyễn Nhật Minh</title>
-    <!-- Tích hợp Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tích hợp Google Fonts: Montserrat (Tiêu đề) & Be Vietnam Pro (Nội dung) -->
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome cho icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -28,44 +25,22 @@
                             accent: '#A65233'    /* Nâu / Cam đất điểm nhấn */
                         },
                         slate: { 50: '#f8fafc', 800: '#1e293b', 900: '#0f172a' }
-                    },
-                    boxShadow: {
-                        'brutal': '6px 6px 0px 0px var(--tw-shadow-color)',
-                        'brutal-lg': '10px 10px 0px 0px var(--tw-shadow-color)',
-                        'brutal-sm': '3px 3px 0px 0px var(--tw-shadow-color)',
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'wiggle': 'wiggle 1s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' },
-                            '33%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
-                            '66%': { borderRadius: '30% 70% 50% 50% / 50% 60% 40% 60%' },
-                            '100%': { borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' }
-                        },
-                        wiggle: {
-                            '0%, 100%': { transform: 'rotate(-3deg)' },
-                            '50%': { transform: 'rotate(3deg)' },
-                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Setup for Snap and Vibe */
+        /* Base Setup */
         html, body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            overflow: hidden;
             font-family: 'Be Vietnam Pro', sans-serif;
             background-color: #f8fafc;
+            scroll-behavior: smooth; /* Cuộn mượt khi bấm menu */
         }
 
-        /* Nền Caro (Grid) mang cảm giác học đường/sáng tạo */
+        /* Nền Caro (Grid) */
         .bg-grid {
             background-size: 40px 40px;
             background-image: 
@@ -73,63 +48,58 @@
                 linear-gradient(to bottom, rgba(4, 63, 140, 0.05) 1px, transparent 1px);
         }
 
-        .snap-container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
+        /* ----- HIỆU ỨNG REVEAL KHI CUỘN TRANG ----- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .snap-section {
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
+        /* Các khối section */
+        .section-container {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             position: relative;
+            padding-top: 5rem;
+            padding-bottom: 3rem;
         }
 
-        /* Brutalist Project Card */
+        /* Brutalist Style Utils */
+        .shadow-brutal { box-shadow: 6px 6px 0px 0px #043F8C; }
+        .shadow-brutal-lg { box-shadow: 10px 10px 0px 0px #043F8C; }
+        .shadow-brutal-sm { box-shadow: 3px 3px 0px 0px #043F8C; }
+
+        /* Brutalist Project Card - SỬA THÀNH HÌNH VUÔNG BO TRÒN */
         .brutal-card {
             background: #ffffff;
-            border: 4px solid #043F8C; /* brand-dark */
-            border-radius: 1.5rem;
-            transition: all 0.2s ease-in-out;
+            border: 4px solid #043F8C;
+            border-radius: 2rem; /* Bo tròn lớn như Figma */
+            transition: all 0.3s ease-in-out;
+            aspect-ratio: 1 / 1; /* Cố định khối hình vuông */
         }
         .brutal-card:hover {
-            transform: translate(-4px, -4px);
+            transform: translateY(-8px);
+            box-shadow: 10px 10px 0px 0px #043F8C;
         }
 
-        /* Scroll ngang cho Mobile */
-        .projects-scroll {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
+        /* Grid hiển thị dự án */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
             padding: 10px 0 30px 0;
-            scrollbar-width: thin;
         }
-        .projects-scroll::-webkit-scrollbar { height: 10px; }
-        .projects-scroll::-webkit-scrollbar-track { background: #f1f5f9; border: 2px solid #043F8C; border-radius: 8px;}
-        .projects-scroll::-webkit-scrollbar-thumb { background: #0BB3D9; border-radius: 8px; border: 2px solid #043F8C;}
-        .project-item {
-            scroll-snap-align: center;
-            flex: 0 0 90%;
-            max-width: 90%;
-            padding: 0 10px;
-        }
-        @media (min-width: 768px) {
-            .projects-scroll {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                overflow-x: visible;
-                gap: 2rem;
-                padding-bottom: 0;
-            }
-            .project-item { flex: unset; max-width: unset; padding: 0; }
+        @media (min-width: 640px) {
+            .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
         @media (min-width: 1024px) {
-            .projects-scroll { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
         
         /* Modal Transitions */
@@ -158,7 +128,7 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; border-left: 2px solid #043F8C;}
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #55C1D9; border: 2px solid #043F8C; border-radius: 10px; }
 
-        /* Typography cho nội dung chi tiết trong Modal */
+        /* Typography Modal */
         .modal-html-content h3 { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 800; color: #043F8C; margin-top: 1.5rem; margin-bottom: 0.75rem; border-bottom: 3px dashed #0BB3D9; padding-bottom: 0.5rem;}
         .modal-html-content h4 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 700; color: #0B9ED9; margin-top: 1.25rem; margin-bottom: 0.5rem; display: inline-block; background: #55C1D920; padding: 2px 8px; border-radius: 6px; border: 2px solid transparent;}
         .modal-html-content p { margin-bottom: 0.75rem; line-height: 1.7; font-weight: 500;}
@@ -176,512 +146,232 @@
 </head>
 <body class="bg-grid">
 
-    <div class="snap-container relative">
+    <nav class="fixed top-4 left-4 right-4 md:left-8 md:right-8 bg-white border-4 border-brand-dark shadow-brutal rounded-2xl z-40 flex justify-between items-center px-6 h-16 transition-all">
+        <a href="#gioi-thieu" class="font-heading font-black text-2xl text-brand-dark tracking-tighter uppercase cursor-pointer hover:rotate-2 transition-transform decoration-transparent">
+            PORTFOLIO<span class="text-brand-accent">.</span>
+        </a>
+        <div class="hidden md:flex space-x-8 font-bold text-sm tracking-wide">
+            <a href="#gioi-thieu" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">HOME</a>
+            <a href="#du-an" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">PROJECTS</a>
+            <a href="#tong-ket" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">SUMMARY</a>
+        </div>
+        <div class="md:hidden text-brand-dark text-xl font-black">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
 
-        <!-- NAVIGATION -->
-        <nav class="fixed top-4 left-4 right-4 md:left-8 md:right-8 bg-white border-4 border-brand-dark shadow-brutal shadow-brand-dark rounded-2xl z-40 flex justify-between items-center px-6 h-16 transition-all">
-            <div onclick="scrollToSection('gioi-thieu')" class="font-heading font-black text-2xl text-brand-dark tracking-tighter uppercase cursor-pointer hover:rotate-2 transition-transform">
-                PORTFOLIO<span class="text-brand-accent">.</span>
+    <section id="gioi-thieu" class="section-container">
+        <div class="max-w-6xl mx-auto px-6 w-full flex flex-col-reverse md:flex-row items-center justify-between gap-12 z-10">
+            
+            <div class="text-center md:text-left md:w-[55%] reveal">
+                <div class="inline-block px-5 py-2 rounded-full bg-brand-light text-brand-dark font-black text-xs md:text-sm mb-6 border-2 border-brand-dark shadow-brutal-sm -rotate-2 transform hover:rotate-0 transition-transform">
+                    <i class="fas fa-bolt text-brand-accent mr-1"></i> HỒ SƠ NĂNG LỰC HỌC TẬP
+                </div>
+                <h1 class="font-heading text-5xl md:text-7xl font-black text-brand-dark mb-6 leading-[1.1] uppercase tracking-tight">
+                    Hi, tôi là <br/>
+                    <span class="relative inline-block mt-2">
+                        <span class="relative z-10 text-brand-primary">Nhật Minh</span>
+                        <span class="absolute bottom-1 left-0 w-full h-4 bg-brand-light/60 -z-10 -rotate-1"></span>
+                    </span>
+                </h1>
+                <p class="text-lg font-medium text-slate-700 mb-8 leading-relaxed border-l-4 border-brand-accent pl-4">
+                    Chào mừng bạn đến với không gian lưu trữ hành trình học tập của tôi. Nơi ứng dụng công cụ kỹ thuật số và Trí tuệ nhân tạo (AI) vào thực tiễn cuộc sống.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                    <a href="#du-an" class="px-8 py-4 bg-brand-accent text-white border-4 border-brand-dark rounded-xl font-black text-lg uppercase tracking-wider shadow-brutal hover:shadow-brutal-lg hover:-translate-y-1 transition-all flex items-center justify-center decoration-transparent">
+                        Khám phá ngay <i class="fas fa-arrow-down ml-3"></i>
+                    </a>
+                </div>
             </div>
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 font-bold text-sm tracking-wide">
-                <a href="#gioi-thieu" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">HOME</a>
-                <a href="#du-an" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">PROJECTS</a>
-                <a href="#tong-ket" class="text-brand-dark hover:text-brand-accent hover:-translate-y-1 transition-transform">SUMMARY</a>
-            </div>
-            <!-- Mobile Menu Icon -->
-            <div class="md:hidden text-brand-dark text-xl font-black">
-                <i class="fas fa-bars"></i>
-            </div>
-        </nav>
 
-        <!-- TRANG GIỚI THIỆU (SNAP SECTION 1) -->
-        <section id="gioi-thieu" class="snap-section pt-24 pb-10">
-            <div class="max-w-6xl mx-auto px-6 w-full flex flex-col-reverse md:flex-row items-center justify-between gap-12 z-10">
-                
-                <!-- Text Content -->
-                <div class="text-center md:text-left md:w-[55%]">
-                    <div class="inline-block px-5 py-2 rounded-full bg-brand-light text-brand-dark font-black text-xs md:text-sm mb-6 border-2 border-brand-dark shadow-brutal-sm shadow-brand-dark -rotate-2 transform hover:rotate-0 transition-transform cursor-pointer">
-                        <i class="fas fa-bolt text-brand-accent mr-1"></i> HỒ SƠ NĂNG LỰC HỌC TẬP
+            <div class="md:w-[45%] flex justify-center relative reveal" style="transition-delay: 0.2s;">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                    <div class="absolute inset-0 bg-brand-primary border-4 border-brand-dark rounded-[3rem] transform -rotate-3 translate-x-4 translate-y-4"></div>
+                    
+                    <div class="absolute inset-0 bg-brand-light border-4 border-brand-dark rounded-[3rem] transform rotate-3 hover:rotate-0 transition-transform cursor-pointer overflow-hidden flex items-end justify-center z-10">
+                        <img src="avt.jpg" alt="Avatar" class="w-[90%] h-[90%] object-cover scale-110">
                     </div>
-                    <h1 class="font-heading text-5xl md:text-7xl font-black text-brand-dark mb-6 leading-[1.1] uppercase tracking-tight">
-                        Hi, tôi là <br/>
-                        <span class="relative inline-block mt-2">
-                            <span class="relative z-10 text-brand-primary">Nhật Minh</span>
-                            <span class="absolute bottom-1 left-0 w-full h-4 bg-brand-light/60 -z-10 -rotate-1"></span>
-                        </span>
-                    </h1>
-                    <p class="text-lg font-medium text-slate-700 mb-8 leading-relaxed border-l-4 border-brand-accent pl-4">
-                        Chào mừng bạn đến với không gian lưu trữ hành trình học tập của tôi. Nơi ứng dụng công cụ kỹ thuật số và Trí tuệ nhân tạo (AI) vào thực tiễn cuộc sống.
+
+                    <div class="absolute -top-6 -right-6 bg-white border-4 border-brand-dark rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-brutal-sm z-20 animate-bounce">
+                        🚀
+                    </div>
+                    <div class="absolute bottom-10 -left-8 bg-brand-cyan border-4 border-brand-dark text-brand-dark rounded-lg px-3 py-1 font-black transform -rotate-12 shadow-brutal-sm z-20">
+                        CREATIVE!
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="du-an" class="section-container relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col justify-center">
+            
+            <div class="flex justify-between items-end mb-8 shrink-0 border-b-4 border-brand-dark pb-4 reveal">
+                <h2 class="font-heading text-4xl md:text-5xl font-black text-brand-dark uppercase tracking-tight">Các Dự Án</h2>
+                <span class="hidden md:inline-block font-bold text-brand-accent text-xl">Thực Hành Số 💻</span>
+            </div>
+
+            <div class="projects-grid flex-grow" id="project-container">
+                </div>
+        </div>
+    </section>
+
+    <section id="tong-ket" class="section-container relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 relative z-10 w-full flex flex-col items-center">
+            
+            <div class="text-center mb-8 inline-block transform rotate-1 reveal">
+                <h2 class="font-heading text-4xl md:text-5xl font-black text-white bg-brand-dark px-6 py-2 border-4 border-brand-dark shadow-brutal uppercase">
+                    Tổng Kết Hành Trình
+                </h2>
+            </div>
+            
+            <div class="w-full bg-white border-4 border-brand-dark p-8 md:p-12 rounded-3xl shadow-brutal-lg relative mt-4 transform -rotate-1 reveal" style="transition-delay: 0.2s;">
+                <div class="absolute -top-6 -left-6 bg-brand-primary w-12 h-12 rounded-full border-4 border-brand-dark flex items-center justify-center shadow-brutal-sm">
+                    <i class="fas fa-quote-left text-brand-dark font-black"></i>
+                </div>
+
+                <div class="relative z-10">
+                    <p class="text-lg md:text-xl leading-relaxed mb-8 font-semibold text-slate-800 border-b-4 border-brand-cyan border-dashed pb-6">
+                        Sự thành công không nằm ở việc "để AI làm hết", mà nằm ở kỹ năng <span class="bg-brand-accent text-white px-2 py-1 rounded border-2 border-brand-dark transform inline-block rotate-2">phản hồi liên tục và kiểm soát chất lượng</span> từ phía con người.
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-                        <a href="#du-an" onclick="scrollToSection('du-an')" class="px-8 py-4 bg-brand-accent text-white border-4 border-brand-dark rounded-xl font-black text-lg uppercase tracking-wider shadow-brutal shadow-brand-dark hover:shadow-brutal-lg hover:-translate-y-1 transition-all flex items-center justify-center">
-                            Khám phá ngay <i class="fas fa-arrow-down ml-3"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Section -->
-                <div class="md:w-[45%] flex justify-center relative">
-                    <!-- Hình khối tĩnh cho Avatar -->
-                    <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                        <!-- Lớp viền/bóng ở dưới -->
-                        <div class="absolute inset-0 bg-brand-primary border-4 border-brand-dark rounded-[3rem] transform -rotate-3 translate-x-4 translate-y-4"></div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mt-8">
+                        <div class="bg-brand-light/30 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm">
+                            <span class="absolute -top-4 -right-4 text-4xl">🌟</span>
+                            <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Kỹ năng cốt lõi</h3>
+                            <p class="text-sm font-medium text-slate-700">Phát triển tư duy, làm chủ hệ sinh thái công cụ số để quản trị và tối ưu quy trình làm việc.</p>
+                        </div>
                         
-                        <!-- Lớp chứa ảnh Avatar thực tế -->
-                        <div class="absolute inset-0 bg-brand-light border-4 border-brand-dark rounded-[3rem] transform rotate-3 hover:rotate-0 transition-transform cursor-pointer overflow-hidden flex items-end justify-center z-10">
-                            <!-- BẠN CÓ THỂ THAY ĐỔI LINK ẢNH AVATAR CỦA BẠN VÀO THUỘC TÍNH SRC DƯỚI ĐÂY -->
-                            <!-- Đã thay đổi sang ảnh mới bạn cung cấp -->
-                            <img src="avt.jpg" alt="Avatar phong cách anime của Nguyễn Nhật Minh" class="w-[90%] h-[90%] object-cover scale-110">
+                        <div class="bg-brand-primary/20 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm">
+                            <span class="absolute -top-4 -right-4 text-4xl">🛡️</span>
+                            <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Đạo đức Kỹ thuật số</h3>
+                            <p class="text-sm font-medium text-slate-700">Nắm vững ranh giới giữa sáng tạo và sao chép. Hình thành thói quen kiểm chứng dữ liệu độc lập, đảm bảo tính liêm chính và sự thật.</p>
                         </div>
-
-                        <!-- Các sticker trang trí bay xung quanh -->
-                        <div class="absolute -top-6 -right-6 bg-white border-4 border-brand-dark rounded-full w-14 h-14 flex items-center justify-center text-2xl shadow-brutal-sm shadow-brand-dark z-20 animate-wiggle">
-                            🚀
-                        </div>
-                        <div class="absolute bottom-10 -left-8 bg-brand-cyan border-4 border-brand-dark text-brand-dark rounded-lg px-3 py-1 font-black transform -rotate-12 shadow-brutal-sm shadow-brand-dark z-20">
-                            CREATIVE!
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- TRANG DỰ ÁN (SNAP SECTION 2) -->
-        <section id="du-an" class="snap-section relative pt-20 pb-4">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex flex-col justify-center">
-                
-                <div class="flex justify-between items-end mb-8 shrink-0 border-b-4 border-brand-dark pb-4">
-                    <h2 class="font-heading text-4xl md:text-5xl font-black text-brand-dark uppercase tracking-tight">Các Dự Án</h2>
-                    <span class="hidden md:inline-block font-bold text-brand-accent text-xl">Thực Hành Số 💻</span>
-                </div>
-
-                <!-- Danh sách dự án (Ngang trên Mobile, Grid trên Desktop) -->
-                <div class="projects-scroll flex-grow" id="project-container">
-                    <!-- Cards render via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- TRANG TỔNG KẾT (SNAP SECTION 3) -->
-        <section id="tong-ket" class="snap-section relative overflow-hidden pt-10">
-            <div class="max-w-5xl mx-auto px-4 relative z-10 w-full flex flex-col items-center">
-                
-                <div class="text-center mb-8 inline-block transform rotate-1">
-                    <h2 class="font-heading text-4xl md:text-5xl font-black text-white bg-brand-dark px-6 py-2 border-4 border-brand-dark shadow-brutal shadow-brand-accent uppercase">
-                        Tổng Kết Hành Trình
-                    </h2>
-                </div>
-                
-                <div class="w-full bg-white border-4 border-brand-dark p-8 md:p-12 rounded-3xl shadow-brutal-lg shadow-brand-dark relative mt-4 transform -rotate-1">
-                    <div class="absolute -top-6 -left-6 bg-brand-primary w-12 h-12 rounded-full border-4 border-brand-dark flex items-center justify-center shadow-brutal-sm shadow-brand-dark">
-                        <i class="fas fa-quote-left text-brand-dark font-black"></i>
-                    </div>
-
-                    <div class="relative z-10">
-                        <p class="text-lg md:text-xl leading-relaxed mb-8 font-semibold text-slate-800 border-b-4 border-brand-cyan border-dashed pb-6">
-                            Sự thành công không nằm ở việc "để AI làm hết", mà nằm ở kỹ năng <span class="bg-brand-accent text-white px-2 py-1 rounded border-2 border-brand-dark transform inline-block rotate-2">phản hồi liên tục và kiểm soát chất lượng</span> từ phía con người.
-                        </p>
                         
-                        <div class="grid md:grid-cols-2 gap-8 mt-8">
-                            <div class="bg-brand-light/30 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm shadow-brand-dark">
-                                <span class="absolute -top-4 -right-4 text-4xl">🌟</span>
-                                <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Kỹ năng cốt lõi</h3>
-                                <p class="text-sm font-medium text-slate-700">Phát triển tư duy, làm chủ hệ sinh thái công cụ số để quản trị và tối ưu quy trình làm việc.</p>
-                            </div>
-                            
-                            <div class="bg-brand-primary/20 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm shadow-brand-dark">
-                                <span class="absolute -top-4 -right-4 text-4xl">🛡️</span>
-                                <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Đạo đức Kỹ thuật số</h3>
-                                <p class="text-sm font-medium text-slate-700">Nắm vững ranh giới giữa sáng tạo và sao chép. Hình thành thói quen kiểm chứng dữ liệu độc lập, đảm bảo tính liêm chính và sự thật.</p>
-                            </div>
-                            
-                            <!-- Thêm nội dung cảm nhận quá trình học -->
-                            <div class="bg-brand-accent/10 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm shadow-brand-dark md:col-span-2">
-                                <span class="absolute -top-4 -right-4 text-4xl">💡</span>
-                                <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Cảm nhận hành trình học tập</h3>
-                                <p class="text-sm font-medium text-slate-700">Trải qua môn học, từ việc bỡ ngỡ với các công cụ số đến khi làm chủ được chúng, em nhận ra công nghệ không làm con người lười đi, mà đòi hỏi chúng ta phải <strong>tư duy sắc bén hơn</strong>. Việc học cách "nói chuyện" với AI qua Prompt Engineering và phối hợp nhóm qua Google Workspace đã thay đổi hoàn toàn phương pháp làm việc của em. Thách thức lớn nhất không phải là học cách dùng tool, mà là <strong>duy trì tư duy phản biện</strong> để không bị phụ thuộc và luôn kiểm chứng những gì AI tạo ra.</p>
-                            </div>
+                        <div class="bg-brand-accent/10 p-6 rounded-xl border-4 border-brand-dark relative hover:-translate-y-2 transition-transform shadow-brutal-sm md:col-span-2">
+                            <span class="absolute -top-4 -right-4 text-4xl">💡</span>
+                            <h3 class="font-heading font-black text-xl mb-2 text-brand-dark uppercase">Cảm nhận hành trình học tập</h3>
+                            <p class="text-sm font-medium text-slate-700">Trải qua môn học, từ việc bỡ ngỡ với các công cụ số đến khi làm chủ được chúng, em nhận ra công nghệ không làm con người lười đi, mà đòi hỏi chúng ta phải <strong>tư duy sắc bén hơn</strong>. Việc học cách "nói chuyện" với AI qua Prompt Engineering và phối hợp nhóm qua Google Workspace đã thay đổi hoàn toàn phương pháp làm việc của em. Thách thức lớn nhất không phải là học cách dùng tool, mà là <strong>duy trì tư duy phản biện</strong> để không bị phụ thuộc và luôn kiểm chứng những gì AI tạo ra.</p>
                         </div>
                     </div>
                 </div>
-
-                <footer class="mt-12 text-center text-brand-dark font-bold border-4 border-brand-dark bg-white px-6 py-2 rounded-full shadow-brutal-sm shadow-brand-primary">
-                    <p class="text-sm">&copy; 2026 Nguyễn Nhật Minh - VNU-ULIS </p>
-                </footer>
             </div>
-        </section>
 
-    </div>
+            <footer class="mt-12 text-center text-brand-dark font-bold border-4 border-brand-dark bg-white px-6 py-2 rounded-full shadow-brutal-sm reveal" style="transition-delay: 0.3s;">
+                <p class="text-sm">&copy; 2026 Nguyễn Nhật Minh - VNU-ULIS </p>
+            </footer>
+        </div>
+    </section>
 
-    <!-- MODAL NỘI DUNG CHI TIẾT DỰ ÁN (Neo-Brutalism Style) -->
     <div id="project-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
         <div class="absolute inset-0 bg-brand-dark/80" onclick="closeModal('project-modal')"></div>
-        
-        <div class="modal-content bg-white w-full max-w-4xl rounded-2xl border-4 border-brand-dark shadow-[12px_12px_0_0_#0B9ED9] relative z-10 flex flex-col h-[90vh] overflow-hidden transform rotate-0">
-            
-            <!-- Header Modal -->
+        <div class="modal-content bg-white w-full max-w-4xl rounded-2xl border-4 border-brand-dark shadow-[12px_12px_0_0_#0B9ED9] relative z-10 flex flex-col h-[90vh] overflow-hidden">
             <div class="px-6 py-5 border-b-4 border-brand-dark flex justify-between items-center bg-brand-light">
                 <div class="flex-grow pr-4">
                     <span id="modal-badge" class="px-4 py-1 bg-brand-dark text-white text-xs font-black rounded-full mb-2 inline-block uppercase tracking-wider shadow-brutal-sm shadow-brand-accent transform -rotate-2"></span>
                     <h3 id="modal-title" class="font-heading text-xl md:text-2xl font-black text-brand-dark leading-tight mt-1"></h3>
                 </div>
-                <button onclick="closeModal('project-modal')" class="w-10 h-10 bg-brand-accent border-4 border-brand-dark text-white rounded-full hover:bg-red-500 transition focus:outline-none flex items-center justify-center shrink-0 shadow-brutal-sm shadow-brand-dark hover:translate-y-1 hover:shadow-none">
+                <button onclick="closeModal('project-modal')" class="w-10 h-10 bg-brand-accent border-4 border-brand-dark text-white rounded-full hover:bg-red-500 transition focus:outline-none flex items-center justify-center shrink-0 shadow-brutal-sm hover:translate-y-1 hover:shadow-none">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            
-            <!-- Body Modal -->
             <div class="p-6 sm:p-8 overflow-y-auto custom-scrollbar bg-white flex-grow modal-html-content text-slate-800" id="modal-body-content">
-                <!-- Nội dung sẽ được nhúng bằng JavaScript -->
             </div>
         </div>
     </div>
 
-    <!-- MODAL XEM MINH CHỨNG (PDF Viewer) -->
     <div id="evidence-modal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-6">
         <div class="absolute inset-0 bg-brand-dark/90" onclick="closeModal('evidence-modal')"></div>
         <div class="modal-content bg-white w-full max-w-5xl rounded-2xl border-4 border-brand-dark shadow-[12px_12px_0_0_#A65233] relative z-10 flex flex-col h-[95vh] overflow-hidden">
             <div class="px-4 py-4 border-b-4 border-brand-dark flex justify-between items-center bg-brand-primary text-brand-dark">
                 <h3 class="font-heading text-xl font-black uppercase tracking-wider"><i class="fas fa-file-pdf text-brand-dark mr-2"></i> Minh chứng dự án</h3>
-                <button onclick="closeModal('evidence-modal')" class="w-10 h-10 bg-white border-4 border-brand-dark text-brand-dark rounded-full hover:bg-brand-accent hover:text-white transition focus:outline-none flex items-center justify-center shrink-0 shadow-brutal-sm shadow-brand-dark hover:translate-y-1 hover:shadow-none">
+                <button onclick="closeModal('evidence-modal')" class="w-10 h-10 bg-white border-4 border-brand-dark text-brand-dark rounded-full hover:bg-brand-accent hover:text-white transition focus:outline-none flex items-center justify-center shrink-0 shadow-brutal-sm hover:translate-y-1 hover:shadow-none">
                     <i class="fas fa-times text-xl font-black"></i>
                 </button>
             </div>
-            <!-- Iframe Container -->
             <div class="flex-grow w-full bg-slate-100 relative grid-bg">
                 <iframe id="evidence-iframe" src="" class="absolute inset-0 w-full h-full border-0" title="PDF Evidence"></iframe>
                 <div id="evidence-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 hidden bg-white">
-                    <div class="bg-brand-cyan p-6 border-4 border-brand-dark shadow-brutal shadow-brand-dark rounded-2xl text-center transform -rotate-2">
+                    <div class="bg-brand-cyan p-6 border-4 border-brand-dark shadow-brutal rounded-2xl text-center transform -rotate-2">
                         <i class="fas fa-cloud-upload-alt text-6xl mb-4 text-brand-dark"></i>
                         <p class="font-black text-xl text-brand-dark mb-2">Chưa có file minh chứng!</p>
-                        <p class="font-medium text-brand-dark text-sm">Hãy dán link PDF vào dữ liệu Code.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Dữ liệu nội dung các bài tập trích xuất Y NGUYÊN TỪ FILE WORD
         const projects = [
             {
-                id: 1,
-                title: "Máy tính và thiết bị ngoại vi",
-                badge: "BÀI 1",
-                icon: "fa-laptop-code",
-                shortDesc: "Máy tính và các thiết bị ngoại vi.",
+                id: 1, title: "Máy tính và thiết bị ngoại vi", badge: "BÀI 1", icon: "fa-laptop-code",
+                shortDesc: "Các khái niệm cơ bản về máy tính, công nghệ số và phần cứng/mềm.",
                 evidenceLink: "https://drive.google.com/file/d/1yCpbnswfY53wzQEtt-9t4rjiictc3wbP/preview", 
-                htmlContent: `
-                    <h3>I. Mục tiêu bài học</h3>
-                    <p>Hoàn thành bài học, sinh viên có khả năng:</p>
-                    <ul>
-                        <li>Trình bày được các khái niệm cơ bản về máy tính, công nghệ số, vai trò của chúng trong bối cảnh giáo dục đại học hiện đại.</li>
-                        <li>Nhận biết và phân biệt được các thành phần phần cứng và phần mềm chính của một hệ thống máy tính, bao gồm cả những công nghệ mới nhất.</li>
-                        <li>Sử dụng được các chức năng cơ bản của các hệ điều hành phổ biến để quản lý tệp tin, thư mục và ứng dụng.</li>
-                        <li>Giải thích được nguyên lý và ứng dụng của các phương thức kết nối mạng và các giao thức không dây thông dụng.</li>
-                        <li>Vận dụng được các phần mềm ứng dụng cơ bản để phục vụ cho hoạt động học tập và nghiên cứu.</li>
-                    </ul>
-                `
+                htmlContent: `<h3>I. Mục tiêu bài học</h3><p>Hoàn thành bài học, sinh viên có khả năng:</p><ul><li>Trình bày được các khái niệm cơ bản về máy tính, công nghệ số.</li><li>Nhận biết và phân biệt phần cứng, phần mềm.</li><li>Sử dụng chức năng cơ bản của hệ điều hành.</li><li>Giải thích nguyên lý mạng, giao thức không dây.</li><li>Vận dụng phần mềm cơ bản.</li></ul>`
             },
             {
-                id: 2,
-                title: "Khai thác dữ liệu và thông tin",
-                badge: "BÀI 2",
-                icon: "fa-database",
-                shortDesc: "Báo cáo thu thập và đánh giá nguồn thông tin tài liệu.",
+                id: 2, title: "Khai thác dữ liệu và thông tin", badge: "BÀI 2", icon: "fa-database",
+                shortDesc: "Báo cáo thu thập và đánh giá nguồn thông tin tài liệu học Hán tự.",
                 evidenceLink: "https://drive.google.com/file/d/1qXVxOXhm7lzy8nxXyXnwcoTead8UKPxK/preview", 
-                htmlContent: `
-                    <h3>I. Giới thiệu chủ đề và Mục tiêu tìm kiếm</h3>
-                    <p>Việc học Hán tự luôn là một trong những rào cản lớn nhất đối với sinh viên Việt Nam khi theo học ngôn ngữ này do sự khác biệt hoàn toàn về loại hình ngôn ngữ (từ chữ quốc ngữ ghi âm sang chữ tượng hình). Mục tiêu của báo cáo này là thu thập, phân loại và đánh giá các tài liệu học thuật có liên quan đến những khó khăn thực tế của sinh viên, từ đó đối chiếu với các phương pháp và chiến lược học tập hiệu quả đã được các nhà nghiên cứu kiểm chứng.</p>
-
-                    <h3>II. Chiến lược và Quá trình tìm kiếm thông tin</h3>
-                    <p>Quá trình thu thập dữ liệu được thực hiện thông qua hệ thống cơ sở dữ liệu đa dạng để đảm bảo tính khách quan và đa chiều:</p>
-                    <ul>
-                        <li><strong>Cơ sở dữ liệu học thuật:</strong> Sử dụng Google Scholar, CSDL dùng chung của Thư viện Đại học Quốc gia Hà Nội (VNU LIC), ResearchGate.</li>
-                        <li><strong>Từ khóa tìm kiếm:</strong> Learning Chinese characters, Hán tự, khó khăn học tiếng Hán của người Việt, chiến lược ghi nhớ chữ Hán, Chinese language acquisition.</li>
-                        <li><strong>Bộ lọc tài liệu:</strong> Ưu tiên các tài liệu được xuất bản trong vòng 10 năm trở lại đây (2015-2026) để đảm bảo tính cập nhật, chú trọng vào các nghiên cứu thực nghiệm tại môi trường đại học ở Việt Nam.</li>
-                    </ul>
-
-                    <h3>III. Phân tích tiêu chí đánh giá độ tin cậy</h3>
-                    <p>Mỗi tài liệu trong danh mục được đánh giá nghiêm ngặt dựa trên 5 tiêu chí:</p>
-                    <ul>
-                        <li><strong>Tác giả:</strong> Trình độ học hàm, học vị, mức độ chuyên sâu trong lĩnh vực Ngôn ngữ học hoặc Giáo dục học.</li>
-                        <li><strong>Cơ quan xuất bản:</strong> Ưu tiên các tạp chí khoa học chuyên ngành có phản biện (peer-reviewed), các nhà xuất bản đại học uy tín.</li>
-                        <li><strong>Phương pháp nghiên cứu:</strong> Tính chặt chẽ của phương pháp (nghiên cứu định lượng, định tính, hay hỗn hợp); quy mô mẫu khảo sát.</li>
-                        <li><strong>Trích dẫn:</strong> Tần suất được các nghiên cứu khác trích dẫn (chỉ số ảnh hưởng).</li>
-                        <li><strong>Tính cập nhật:</strong> Năm xuất bản của tài liệu, mức độ phù hợp với xu hướng giáo dục hiện tại.</li>
-                    </ul>
-
-                    <h3>IV. Bảng tổng hợp và xếp hạng độ tin cậy</h3>
-                    <div class="overflow-x-auto pb-4">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên tài liệu / Tác giả</th>
-                                    <th>Nguồn / Cơ quan</th>
-                                    <th>Đánh giá</th>
-                                    <th>Xếp hạng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1</td><td>Khó khăn khi học Hán tự của SV... (Nguyễn, T.H., 2021)</td><td>Tạp chí Khoa học Ngoại ngữ</td><td>Cao: Tác giả là giảng viên uy tín; PP nghiên cứu hỗn hợp; số liệu cập nhật (2021).</td><td><strong>5</strong></td></tr>
-                                <tr><td>2</td><td>Ứng dụng phương pháp chiết tự... (Trần, M.D. & Lê, T.A., 2020)</td><td>Tạp chí Nghiên cứu Nước ngoài</td><td>Cao: Tạp chí chuyên ngành có phản biện; tính ứng dụng thực tiễn cao.</td><td><strong>5</strong></td></tr>
-                                <tr><td>3</td><td>Tác động của tiếng mẹ đẻ đến việc học... (Wang, L., 2019)</td><td>Tạp chí Giáo dục Quốc tế</td><td>Cao: Góc nhìn đối chiếu ngôn ngữ sâu sắc; lượng trích dẫn quốc tế cao.</td><td><strong>5</strong></td></tr>
-                                <tr><td>4</td><td>Phân tích lỗi sai thường gặp khi viết chữ Hán... (Hoàng, V.A., 2018)</td><td>Tạp chí Ngôn ngữ & Đời sống</td><td>Khá: Cung cấp dữ liệu định tính tốt, tuy nhiên năm xuất bản đã hơi cũ.</td><td><strong>4</strong></td></tr>
-                                <tr><td>5</td><td>Hiệu quả của ứng dụng di động trong tự học... (Phạm, T.T., 2022)</td><td>Tạp chí Khoa học Giáo dục</td><td>Cao: Đón đầu xu hướng công nghệ giáo dục; PP thực nghiệm đối chứng rõ ràng.</td><td><strong>5</strong></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>V. Danh mục tài liệu tham khảo (Định dạng Harvard)</h3>
-                    <p><strong>Tài liệu tiếng Việt:</strong></p>
-                    <ul>
-                        <li>Hoàng, V.A., 2018. Phân tích lỗi sai thường gặp khi viết chữ Hán của sinh viên năm thứ nhất. <em>Tạp chí Ngôn ngữ và Đời sống</em>, 24(6), tr.55-62.</li>
-                        <li>Lê, V.T., 2017. <em>Giáo trình Hán ngữ và phương pháp giảng dạy</em>. Hà Nội: Nhà xuất bản Đại học Quốc gia Hà Nội.</li>
-                        <li>Nguyễn, Q.T., 2020. <em>Nghiên cứu đối chiếu Việt - Hán</em>. Hà Nội: Nhà xuất bản Giáo dục Việt Nam.</li>
-                        <li>Nguyễn, T.H., 2021. Khó khăn khi học Hán tự của sinh viên Việt Nam: Một nghiên cứu tình huống tại các trường đại học chuyên ngữ. <em>Tạp chí Khoa học Ngoại ngữ</em>, 65(2), tr.45-58.</li>
-                    </ul>
-                `
+                htmlContent: `<h3>I. Giới thiệu chủ đề</h3><p>Đánh giá các tài liệu học thuật liên quan khó khăn thực tế của sinh viên khi học Hán tự.</p><h3>II. Chiến lược tìm kiếm</h3><ul><li>Sử dụng Google Scholar, VNU LIC.</li><li>Từ khóa: Learning Chinese characters, Hán tự...</li></ul>`
             },
             {
-                id: 3,
-                title: "Tổng quan về trí tuệ nhân tạo",
-                badge: "BÀI 3",
-                icon: "fa-brain",
-                shortDesc: "Nhiếp ảnh & Thiết kế Đồ họa, Ngôn ngữ Tiếng Trung.",
+                id: 3, title: "Tổng quan về trí tuệ nhân tạo", badge: "BÀI 3", icon: "fa-brain",
+                shortDesc: "Thực hành ứng dụng AI tạo sinh qua 3 cấp độ Prompt.",
                 evidenceLink: "https://drive.google.com/file/d/1ALLYSObNvoZRIpM575EEG6rh92GNUaSp/preview",
-                htmlContent: `
-                    <h3>I. Chi tiết 3 tác vụ và các cấp độ Prompt</h3>
-                    <h4>Tác vụ 1: Tóm tắt một bài đọc/tài liệu học thuật (Chủ đề: Lịch sử chữ Hán)</h4>
-                    <ul>
-                        <li><strong>Prompt Cơ bản:</strong> Tóm tắt tài liệu về lịch sử phát triển của chữ Hán.</li>
-                        <li><strong>Prompt Cải tiến:</strong> Tóm tắt quá trình tiến hóa của chữ Hán từ thời cổ đại đến hiện đại. Hãy liệt kê các loại chữ chính (Giáp cốt văn, Kim văn, Tiểu triện, Lệ thư, Khải thư) và nêu ngắn gọn đặc điểm của chúng.</li>
-                        <li><strong>Prompt Nâng cao (Role + Constraints + Formatting):</strong> Đóng vai giảng viên Ngôn ngữ học Trung Quốc. Hãy tóm tắt quá trình tiến hóa của chữ Hán từ Giáp cốt văn đến chữ giản thể hiện nay. Yêu cầu: Trình bày thông tin dưới dạng bảng gồm 4 cột: Giai đoạn, Tên loại chữ, Đặc điểm chính, Tên tiếng Trung (kèm pinyin). Cung cấp một đoạn nhận xét ngắn gọn (khoảng 50 chữ) về sự thay đổi tính thẩm mỹ của chữ Hán qua các thời kỳ.</li>
-                    </ul>
-
-                    <h4>Tác vụ 2: Giải thích một khái niệm phức tạp (Chủ đề: Nhiếp ảnh - Tam giác phơi sáng)</h4>
-                    <ul>
-                        <li><strong>Prompt Cơ bản:</strong> Giải thích khẩu độ, tốc độ màn trập và ISO.</li>
-                        <li><strong>Prompt Cải tiến:</strong> Giải thích khái niệm "Tam giác phơi sáng" (Khẩu độ, Tốc độ màn trập, ISO) trên máy ảnh kỹ thuật số. Làm thế nào để điều chỉnh 3 yếu tố này để ảnh sáng đều và không bị nhòe?</li>
-                        <li><strong>Prompt Nâng cao (Role + Analogy/Ẩn dụ + CoT):</strong> Đóng vai một nhiếp ảnh gia chuyên nghiệp đang hướng dẫn học viên sử dụng máy ảnh Mirrorless. Hãy giải thích "Tam giác phơi sáng" theo các bước sau: Bước 1: Sử dụng hình ảnh ẩn dụ để giải thích từng yếu tố cho người mới (Ví dụ: Khẩu độ giống như con ngươi của mắt, Tốc độ màn trập giống như cái chớp mắt...). Bước 2: Phân tích sự đánh đổi (Trade-off). Ví dụ: Nếu tăng ISO để ảnh sáng hơn thì hậu quả là gì? Bước 3: Đưa ra một "thông số an toàn" tham khảo để chụp chân dung ngoài trời vào ban ngày.</li>
-                    </ul>
-
-                    <h4>Tác vụ 3: Tạo bộ câu hỏi ôn tập (Chủ đề: Thiết kế đồ họa / Typography)</h4>
-                    <ul>
-                        <li><strong>Prompt Cơ bản:</strong> Đặt câu hỏi về thiết kế đồ họa.</li>
-                        <li><strong>Prompt Cải tiến:</strong> Tạo 5 câu hỏi trắc nghiệm kiểm tra kiến thức về các nguyên tắc thị giác (Visual principles) và Typography trong thiết kế Graphic Design. Cung cấp đáp án ở cuối.</li>
-                        <li><strong>Prompt Nâng cao (Role + Scenario-based/Few-shot):</strong> Bạn là một Art Director. Hãy tạo một bài kiểm tra nhỏ gồm 3 "câu hỏi tình huống" để đánh giá tư duy thiết kế của ứng viên. Tình huống 1: ... Câu hỏi: ... Gợi ý trả lời (Barem): ... Hãy viết tiếp Tình huống 2 và 3 theo cấu trúc mẫu trên, tập trung vào tư duy màu sắc và bố cục.</li>
-                    </ul>
-
-                    <h3>II. Bảng so sánh và Phân tích kết quả (Dùng cho Báo cáo)</h3>
-                    <div class="overflow-x-auto pb-4">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tiêu chí</th>
-                                    <th>Prompt Cơ bản</th>
-                                    <th>Prompt Cải tiến</th>
-                                    <th>Prompt Nâng cao</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>Tính ứng dụng</strong></td><td>Lý thuyết khô khan.</td><td>Thông tin mạch lạc, dễ nhớ.</td><td>Giải quyết được bài toán thực tế (thực hành nhiếp ảnh, phỏng vấn thiết kế).</td></tr>
-                                <tr><td><strong>Giọng văn (Tone)</strong></td><td>Máy móc, trung lập.</td><td>Súc tích, thân thiện hơn.</td><td>Chuyên nghiệp, truyền cảm hứng (nhờ hình ảnh ẩn dụ và nhập vai).</td></tr>
-                                <tr><td><strong>Độ chính xác định dạng</strong></td><td>Dạng text thuần túy.</td><td>Cấu trúc gạch đầu dòng cơ bản.</td><td>Hoàn hảo với bảng biểu, pinyin, barem điểm theo template.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>III. Phân tích lý do & Tổng hợp nguyên tắc</h3>
-                    <p>Tại sao Prompt Nâng cao mang lại đột phá?</p>
-                    <ul>
-                        <li><strong>Sử dụng Hình ảnh ẩn dụ (Analogies):</strong> Với các khái niệm kỹ thuật, việc ép AI dùng phép ẩn dụ giúp chuyển hóa kiến thức trừu tượng sang trực quan, dễ hiểu.</li>
-                        <li><strong>Bài toán Tình huống (Scenario-based):</strong> Đặt AI vào một ngữ cảnh cụ thể sẽ sinh ra các câu hỏi đánh giá tư duy sâu sắc hơn.</li>
-                        <li><strong>Định dạng đa phương tiện:</strong> Ép AI xuất dữ liệu dưới dạng bảng biểu hoặc ngôn ngữ phụ giúp tối ưu hóa việc tra cứu.</li>
-                    </ul>
-                `
+                htmlContent: `<h3>I. Chi tiết tác vụ Prompt</h3><ul><li><strong>Tác vụ 1:</strong> Tóm tắt bài đọc lịch sử chữ Hán (Vai trò giảng viên).</li><li><strong>Tác vụ 2:</strong> Giải thích tam giác phơi sáng (Vai trò nhiếp ảnh gia).</li><li><strong>Tác vụ 3:</strong> Tạo bộ câu hỏi Typography (Vai trò Art Director).</li></ul>`
             },
             {
-                id: 4,
-                title: "Giao tiếp và hợp tác trong môi trường số",
-                badge: "BÀI 4",
-                icon: "fa-users-cog",
+                id: 4, title: "Giao tiếp trong môi trường số", badge: "BÀI 4", icon: "fa-users-cog",
                 shortDesc: "Đề xuất kế hoạch nghiên cứu sản phẩm Trà Xanh Không Độ.",
                 evidenceLink: "https://drive.google.com/file/d/17IeY5qK0A5Yb9YtnMn-QLAwyvAYVt-gf/preview",
-                htmlContent: `
-                    <h3>I. GIỚI THIỆU CHUNG VỀ DỰ ÁN</h3>
-                    <p>Trong khuôn khổ môn học Business Communication, nhóm 3 chúng em đã tiến hành thực hiện một bản Đề xuất không chính thức (Informal Proposal). Mục tiêu của dự án là đề xuất với Ban Giám đốc Tập đoàn Tân Hiệp Phát một kế hoạch nghiên cứu để đo lường sự hài lòng của khách hàng và điều chỉnh lại công thức sản phẩm Trà Xanh Không Độ nhằm khôi phục niềm tin của người tiêu dùng.</p>
-                    <p>Với quy mô nhóm gồm 4 thành viên, chúng em phải đối mặt với khối lượng công việc lớn... Để đảm bảo tiến độ, nhóm đã thống nhất sử dụng hệ sinh thái: Google Docs, Google Drive và Google Meet.</p>
-
-                    <h3>II. NHẬT KÝ MINH CHỨNG VÀ QUÁ TRÌNH THỰC HIỆN</h3>
-                    <h4>1. Soạn thảo tài liệu cộng tác với Google Docs</h4>
-                    <p>Toàn bộ nội dung của bản Proposal được nhóm thực hiện trực tiếp trên nền tảng Google Docs... Tác vụ thực hiện: Em trực tiếp soạn thảo và trình bày (format) cho bảng Budget... Đồng thời, em sử dụng tính năng Bình luận (Comment) để thảo luận với bạn phụ trách phần Staffing.</p>
-                    <p>Trong quá trình soát lỗi, em bật chế độ Đề xuất (Suggesting mode) để gợi ý chỉnh sửa các từ vựng học thuật.</p>
-
-                    <h4>3. Tổ chức và lưu trữ tệp tin khoa học trên Google Drive</h4>
-                    <p>Việc lưu trữ tập trung là vô cùng quan trọng đối với một văn bản có nhiều bản nháp. Chúng em đã lựa chọn Google drive nhằm thuận tiện cho việc lưu trữ.</p>
-
-                    <h4>4. Giao tiếp và thảo luận chủ động qua Google Meet</h4>
-                    <p>Để thống nhất ý tưởng cốt lõi, nhóm tổ chức họp trực tuyến... Em đã dùng tính năng Chia sẻ màn hình (Present now) để chiếu bảng Timeline trên Docs, cùng mọi người chốt ngày thực hiện từng giai đoạn.</p>
-
-                    <h3>III. PHÂN TÍCH HIỆU QUẢ CỦA CÔNG CỤ</h3>
-                    <ul>
-                        <li><strong>Google Docs:</strong> Duy trì một "Single Source of Truth" (Nguồn chân lý duy nhất). Tránh sinh ra file rác.</li>
-                        <li><strong>Google Drive:</strong> Quản lý tài nguyên tập trung, file scan bản nháp không bị thất lạc.</li>
-                        <li><strong>Google Meet:</strong> Giải thích công thức tính toán ngân sách phức tạp nhờ chia sẻ màn hình trong vòng 10 phút.</li>
-                    </ul>
-
-                    <h3>IV. THÁCH THỨC VÀ GIẢI PHÁP</h3>
-                    <h4>1. Xung đột định dạng (Formatting):</h4>
-                    <p><strong>Vấn đề:</strong> Em đang kẻ bảng, một bạn khác lại dán thêm nội dung làm vỡ khung.</p>
-                    <p><strong>Cách giải quyết:</strong> Thiết lập quy tắc làm việc tuần tự. Viết thô trước, người format (em) làm vào tối cuối cùng.</p>
-
-                    <h4>2. Khó khăn khi họp Meet đông người:</h4>
-                    <p><strong>Vấn đề:</strong> Lịch cá nhân lệch nhau, khó tìm khung giờ chung.</p>
-                    <p><strong>Cách giải quyết:</strong> "Họp bất đồng bộ". Để lại Comment trên Docs hoặc xem lại Record cuộc họp.</p>
-                `
+                htmlContent: `<h3>I. Tổng quan</h3><p>Phối hợp qua Google Workspace để làm Informal Proposal.</p><h3>II. Phân tích công cụ</h3><ul><li><strong>Google Docs:</strong> Single Source of Truth.</li><li><strong>Google Meet:</strong> Giải quyết vướng mắc nhanh chóng.</li></ul>`
             },
             {
-                id: 5,
-                title: "Sáng tạo nội dung số",
-                badge: "BÀI 5",
-                icon: "fa-paint-roller",
+                id: 5, title: "Sáng tạo nội dung số", badge: "BÀI 5", icon: "fa-paint-roller",
                 shortDesc: "Thiết kế Infographic thương mại chiến dịch Z-GREEN.",
                 evidenceLink: "https://drive.google.com/file/d/1EFeKCtQiEERfjn5-ZQgYcmCdU9IHGP8u/preview",
-                htmlContent: `
-                    <h3>I. Tổng Quan Dự Án</h3>
-                    <h4>1. Mục tiêu</h4>
-                    <p>Mastery (thành thạo) việc sử dụng các công cụ AI tạo sinh khác nhau để hỗ trợ sáng tạo nội dung số thương mại chuyên nghiệp.</p>
-                    <h4>2. Lựa chọn dự án</h4>
-                    <p>Làm Infographic thương mại cho chiến dịch: "Hồi sinh Z-GREEN: Chiến dịch tái tung thương hiệu đồ uống xanh cho Gen Z". Kết hợp phong cách tiếp thị quốc tế, trực quan, và các bảng dữ liệu.</p>
-                    <h4>3. Danh sách các công cụ AI đã sử dụng</h4>
-                    <ul>
-                        <li><strong>Tạo văn bản:</strong> ChatGPT-4o</li>
-                        <li><strong>Tạo hình ảnh và bố cục:</strong> Gemini / Dall-e.</li>
-                        <li><strong>Hỗ trợ thiết kế:</strong> Canva AI để chỉnh sửa tinh, hoàn thiện typography.</li>
-                    </ul>
-
-                    <h3>II. Quy Trình Sử Dụng AI</h3>
-                    <p><strong>Bước 1: Xây dựng thông điệp (ChatGPT)</strong><br>
-                    Phân tích đối tượng Gen Z và xây dựng các luận điểm thương mại cốt lõi. Prompt: "Hãy đóng vai một Chuyên gia Tiếp thị số thương mại..."</p>
-                    
-                    <p><strong>Bước 2: Tạo bố cục & Hình ảnh thương mại hóa (Dall-e/Gemini)</strong><br>
-                    Tạo ra bản phác thảo tổng thể cho poster... Prompt chi tiết: "Create a premium commercial advertising poster for the Z-GREEN Rebirth Project..." (Chỉ định rõ màu sắc emerald, lime, style glassmorphism).</p>
-
-                    <p><strong>Bước 3: Chỉnh sửa và Tích hợp đầu ra của AI</strong><br>
-                    Phát hiện các dữ liệu biểu đồ sai logic toán học. Phản hồi trực tiếp cho AI để sửa lại số liệu (VD: 2 số 12% và 1 số 78% không thể tạo biểu đồ đúng).</p>
-
-                    <p><strong>Bước 4: Hoàn thiện bằng Canva</strong><br>
-                    Chuyển hình ảnh sang Canva, xóa bỏ văn bản giả (nonsense text), thêm vector logo thực tế.</p>
-
-                    <h3>III. Phân Tích Vai Trò Của AI</h3>
-                    <h4>1. Những phần AI làm tốt và hạn chế</h4>
-                    <div class="overflow-x-auto pb-4">
-                        <table>
-                            <thead><tr><th>Lĩnh vực</th><th>Điểm mạnh của AI</th><th>Điểm hạn chế của AI</th></tr></thead>
-                            <tbody>
-                                <tr><td><strong>Sáng tạo Text</strong></td><td>Tạo cấu trúc, thông điệp nhanh, chất lượng cao.</td><td>Cần con người tinh chỉnh sắc thái thương hiệu.</td></tr>
-                                <tr><td><strong>Bố cục Visual</strong></td><td>Thực thi bố cục phức tạp (glassmorphism) rất đỉnh.</td><td>Tạo chữ giả, lỗi toán học trong biểu đồ dữ liệu.</td></tr>
-                                <tr><td><strong>Thiết kế Design</strong></td><td>Tạo "hạt giống thiết kế" để phát triển tiếp.</td><td>Chưa thể tự sắp xếp chữ (typesetting) hoàn hảo.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h4>2. Cách AI thay đổi quy trình sáng tạo</h4>
-                    <p>Từ "Vẽ tay từng phần tử" sang <strong>"Điều phối (curation) và Quản trị prompt"</strong>. Em trở thành "Giám đốc Nghệ thuật". Thời gian chuyển từ làm tay sang kiểm tra chất lượng.</p>
-                    
-                    <h4>3. Các vấn đề đạo đức cần cân nhắc</h4>
-                    <p><strong>Bản quyền:</strong> Ranh giới mỏng manh giữa lấy cảm hứng và sao chép.<br>
-                    <strong>Tính trung thực:</strong> AI có thể lừa dối người xem bằng biểu đồ có số liệu bịa đặt, con người bắt buộc phải kiểm soát chặt.</p>
-                `
+                htmlContent: `<h3>I. Quy trình sử dụng AI</h3><ul><li>Tạo văn bản: ChatGPT.</li><li>Tạo bố cục & ảnh: Dall-e.</li><li>Hoàn thiện Typography: Canva.</li></ul>`
             },
             {
-                id: 6,
-                title: "An toàn và liêm chính học thuật trong môi trường số",
-                badge: "BÀI 6",
-                icon: "fa-shield-check",
-                shortDesc: "Nghiên cứu chính sách ULIS và thực hành liêm chính.",
+                id: 6, title: "An toàn và liêm chính học thuật", badge: "BÀI 6", icon: "fa-shield-check",
+                shortDesc: "Nghiên cứu chính sách sử dụng AI và nguyên tắc đạo đức.",
                 evidenceLink: "https://drive.google.com/file/d/1HFjaCuO28o9nCgVx_CkPGoMRbcdqwq6Z/preview",
-                htmlContent: `
-                    <h3>I. Nghiên cứu chính sách về sử dụng AI</h3>
-                    <h4>1. Chính sách của Trường Đại học Ngoại ngữ - ĐHQGHN (ULIS)</h4>
-                    <p>Khuyến khích sinh viên sử dụng AI như công cụ hỗ trợ học tập, nhưng <strong>không được thay thế hoàn toàn quá trình tư duy, nghiên cứu</strong>. Sinh viên phải trung thực, minh bạch khi sử dụng và tự chịu trách nhiệm kiểm chứng thông tin.</p>
-                    
-                    <h4>2. Những hành vi được phép và không được phép</h4>
-                    <ul>
-                        <li><strong>Được phép:</strong> Gợi ý ý tưởng, tóm tắt tài liệu, kiểm tra ngữ pháp.</li>
-                        <li><strong>Không được phép:</strong> Viết toàn bộ bài rồi nộp, bịa đặt số liệu (Hallucination), đạo văn.</li>
-                    </ul>
-
-                    <h3>II. Thực hiện nhiệm vụ với sự hỗ trợ của AI</h3>
-                    <p><strong>Nhiệm vụ:</strong> Viết bài luận "Ảnh hưởng của trí tuệ nhân tạo đến việc học ngoại ngữ".</p>
-                    <h4>1. Quá trình đánh giá và chỉnh sửa đầu ra</h4>
-                    <ul>
-                        <li><strong>Bước 1. Kiểm chứng:</strong> Đối chiếu với Google Scholar, Springer.</li>
-                        <li><strong>Bước 2. Chỉnh sửa:</strong> Không sao chép nguyên văn, viết lại bằng ngôn ngữ cá nhân, thêm ví dụ Việt Nam.</li>
-                        <li><strong>Bước 3. Bổ sung nguồn:</strong> Tìm bài báo gốc thay thế nguồn giả.</li>
-                        <li><strong>Bước 4. Kiểm tra đạo văn:</strong> Sử dụng Grammarly.</li>
-                    </ul>
-
-                    <h3>III. Phân tích các vấn đề đạo đức</h3>
-                    <h4>1. Ranh giới hỗ trợ và gian lận</h4>
-                    <p>Nếu để AI hoàn thành toàn bộ bài tập rồi nộp thì là gian lận. AI chỉ đóng vai trò <strong>trợ lý học tập</strong>.</p>
-                    <h4>2. Quyền sở hữu trí tuệ và trích dẫn</h4>
-                    <p>Nguy cơ AI tạo thông tin không có thật (tên bài báo giả). Phải kiểm chứng và trích dẫn minh bạch.</p>
-
-                    <h3>IV. Bộ nguyên tắc cá nhân khi sử dụng AI</h3>
-                    <ul>
-                        <li><strong>1. AI chỉ là công cụ hỗ trợ:</strong> Không thay thế tư duy.</li>
-                        <li><strong>2. Luôn kiểm chứng thông tin:</strong> Đối chiếu nguồn tin cậy.</li>
-                        <li><strong>3. Minh bạch khi sử dụng AI:</strong> Khai báo rõ ràng.</li>
-                        <li><strong>4. Không sao chép nguyên văn:</strong> Đọc hiểu và diễn đạt lại.</li>
-                        <li><strong>5. Tôn trọng quyền sở hữu trí tuệ.</strong></li>
-                        <li><strong>6. Phát triển năng lực bản thân:</strong> Mục tiêu cuối cùng là nâng cao tư duy của chính mình chứ không phải để AI làm thay.</li>
-                    </ul>
-                `
+                htmlContent: `<h3>I. Bộ nguyên tắc</h3><ul><li>AI chỉ là công cụ hỗ trợ.</li><li>Luôn kiểm chứng thông tin, trích dẫn rõ ràng.</li><li>Không sao chép nguyên văn.</li></ul>`
             }
         ];
 
-        // 1. Render Project Cards with Neo-Brutalism Style
+        // RENDER PROJECT THÀNH KHỐI HÌNH VUÔNG
         function renderProjects() {
             const container = document.getElementById('project-container');
             let html = '';
             
-            projects.forEach((proj) => {
+            projects.forEach((proj, index) => {
+                // Thêm class 'reveal' và chỉnh delay so le
+                const delay = (index % 3) * 0.15;
+                
                 html += `
-                    <div class="project-item">
-                        <div class="brutal-card flex flex-col h-full shadow-brutal shadow-brand-dark group cursor-pointer overflow-hidden">
-                            <!-- Card Header Color Block -->
-                            <div class="h-4 w-full bg-brand-primary border-b-4 border-brand-dark group-hover:bg-brand-cyan transition-colors"></div>
-                            
-                            <div class="p-6 md:p-8 flex-grow flex flex-col relative">
-                                <!-- Icon Box -->
-                                <div class="w-14 h-14 bg-white border-4 border-brand-dark text-brand-dark rounded-xl flex items-center justify-center text-2xl mb-6 shadow-brutal-sm shadow-brand-dark transform -rotate-3 group-hover:rotate-0 transition-transform">
-                                    <i class="fas ${proj.icon}"></i>
-                                </div>
-                                
-                                <!-- Badge -->
-                                <span class="absolute top-6 right-6 px-3 py-1 bg-brand-accent text-white text-xs font-black uppercase tracking-wider border-2 border-brand-dark rounded-md shadow-brutal-sm shadow-brand-dark transform rotate-3">
-                                    ${proj.badge}
-                                </span>
+                    <div class="brutal-card flex flex-col shadow-brutal group cursor-pointer p-6 relative bg-white reveal" style="transition-delay: ${delay}s">
+                        
+                        <div class="w-14 h-14 bg-brand-light border-4 border-brand-dark text-brand-dark rounded-2xl flex items-center justify-center text-2xl mb-4 shadow-brutal-sm group-hover:-rotate-6 transition-transform z-10 shrink-0">
+                            <i class="fas ${proj.icon}"></i>
+                        </div>
+                        
+                        <span class="absolute top-6 right-6 px-3 py-1 bg-brand-accent text-white text-[10px] font-black uppercase tracking-wider border-2 border-brand-dark rounded-xl shadow-brutal-sm z-10">
+                            ${proj.badge}
+                        </span>
 
-                                <h3 class="font-heading font-black text-xl mb-3 text-brand-dark leading-snug">${proj.title}</h3>
-                                <p class="text-slate-700 font-medium text-sm leading-relaxed mb-8 flex-grow">${proj.shortDesc}</p>
-                                
-                                <!-- Buttons -->
-                                <div class="mt-auto flex flex-col sm:flex-row gap-3">
-                                    <button onclick="openProjectModal(${proj.id})" class="flex-1 py-3 bg-brand-cyan border-2 border-brand-dark text-brand-dark rounded-lg text-sm font-black uppercase tracking-wide hover:bg-brand-primary hover:text-white transition shadow-brutal-sm shadow-brand-dark hover:translate-y-1 hover:shadow-none">
-                                        Chi tiết
-                                    </button>
-                                    <button onclick="openEvidenceModal('${proj.evidenceLink}')" class="flex-1 py-3 bg-white border-2 border-brand-dark text-brand-dark rounded-lg text-sm font-black uppercase tracking-wide hover:bg-slate-200 transition shadow-brutal-sm shadow-brand-dark hover:translate-y-1 hover:shadow-none">
-                                        <i class="fas fa-file-pdf text-brand-accent mr-1"></i> Minh chứng
-                                    </button>
-                                </div>
-                            </div>
+                        <h3 class="font-heading font-black text-lg mb-2 text-brand-dark leading-snug z-10 line-clamp-2">${proj.title}</h3>
+                        <p class="text-slate-700 font-medium text-sm leading-relaxed mb-4 flex-grow z-10 line-clamp-3">${proj.shortDesc}</p>
+                        
+                        <div class="mt-auto flex flex-col gap-2 z-10 w-full">
+                            <button onclick="openProjectModal(${proj.id})" class="w-full py-2 bg-brand-cyan border-2 border-brand-dark text-brand-dark rounded-xl text-sm font-black uppercase tracking-wide hover:bg-brand-primary hover:text-white transition shadow-brutal-sm hover:translate-y-1 hover:shadow-none">
+                                Chi tiết
+                            </button>
+                            <button onclick="openEvidenceModal('${proj.evidenceLink}')" class="w-full py-2 bg-white border-2 border-brand-dark text-brand-dark rounded-xl text-sm font-black uppercase tracking-wide hover:bg-slate-200 transition shadow-brutal-sm hover:translate-y-1 hover:shadow-none">
+                                <i class="fas fa-file-pdf text-brand-accent mr-1"></i> Minh chứng
+                            </button>
                         </div>
                     </div>
                 `;
@@ -689,9 +379,27 @@
             container.innerHTML = html;
         }
 
-        document.addEventListener('DOMContentLoaded', renderProjects);
+        // HÀM XỬ LÝ SCROLL REVEAL
+        function revealElements() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Khoảng cách từ viền dưới trước khi hiện ra
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
 
-        // 2. Logic xử lý Modal (Chi tiết)
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProjects();
+            revealElements(); // Gọi lần đầu khi load
+            window.addEventListener("scroll", revealElements); // Lắng nghe sự kiện scroll
+        });
+
+        // Modal Logic
         const projectModal = document.getElementById('project-modal');
         function openProjectModal(id) {
             const project = projects.find(p => p.id === id);
@@ -702,7 +410,6 @@
             projectModal.classList.add('active');
         }
 
-        // 3. Logic xử lý Modal (PDF)
         const evidenceModal = document.getElementById('evidence-modal');
         function openEvidenceModal(link) {
             const iframe = document.getElementById('evidence-iframe');
@@ -719,7 +426,6 @@
             evidenceModal.classList.add('active');
         }
 
-        // 4. Đóng Modal
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('active');
@@ -734,11 +440,6 @@
                 closeModal('evidence-modal');
             }
         });
-
-        // 5. Scroll Smooth
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>
